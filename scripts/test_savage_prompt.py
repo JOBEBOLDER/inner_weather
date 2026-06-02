@@ -1,9 +1,8 @@
-import os
 import json
+import os
 from pathlib import Path
 
-from openai import OpenAI
-
+from anthropic import Anthropic
 from dotenv import load_dotenv
 
 
@@ -56,55 +55,35 @@ def validate_payload(payload: dict) -> list[str]:
 def main() -> None:
     load_dotenv()
 
-    api_key = os.getenv("DEEPSEEK_API_KEY")
+    api_key = os.getenv("ANTHROPIC_API_KEY")
     if not api_key:
-        raise RuntimeError("DEEPSEEK_API_KEY is not set. Please update .env first.")
+        raise RuntimeError("ANTHROPIC_API_KEY is not set. Please update .env first.")
 
-    model_name = os.getenv("MODEL", "deepseek-chat")
+    model = os.getenv("MODEL", "claude-sonnet-4-20250514")
 
     prompt_path = Path(__file__).resolve().parent.parent / "prompts" / "savage_system_v1.txt"
     system_prompt = prompt_path.read_text(encoding="utf-8")
 
-    client = OpenAI(
-        api_key=api_key,
-        base_url="https://api.deepseek.com",
+    client = Anthropic(api_key=api_key)
+    resp = client.messages.create(
+        model=model,
+        max_tokens=800,
+        temperature=0.2,
+        system=system_prompt,
+        messages=[{"role": "user", "content": TEST_INPUT}],
     )
 
-    print("==================================================")
-    print(f"Test input: {TEST_INPUT}")
-    print("==================================================")
+    output_text = "".join(
+        block.text for block in resp.content if getattr(block, "type", None) == "text"
+    ).strip()
 
-    try:
-        resp = client.chat.completions.create(
-            model=model_name,
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": TEST_INPUT},
-            ],
-            temperature=0.7,
-        )
-        output_text = (resp.choices[0].message.content or "").strip()
-    except Exception as exc:
-        print(f"API call failed: {exc}")
-        return
-
-    print("\n=== Raw Model Output ===")
+    print("=== Raw Model Output ===")
     print(output_text)
     print()
 
-    # Some models may wrap JSON in markdown fences.
-    cleaned = output_text.strip()
-    if cleaned.startswith("```"):
-        parts = cleaned.split("```")
-        if len(parts) > 1:
-            cleaned = parts[1]
-    if cleaned.startswith("json"):
-        cleaned = cleaned[4:]
-    cleaned = cleaned.strip()
-
     print("=== Validation ===")
     try:
-        payload = json.loads(cleaned)
+        payload = json.loads(output_text)
         print("JSON parse: OK")
     except json.JSONDecodeError as exc:
         print(f"JSON parse: FAIL ({exc})")
@@ -115,23 +94,9 @@ def main() -> None:
         print("Schema check: FAIL")
         for err in errors:
             print(f"- {err}")
-        return
-
-    print("Schema check: OK")
-    print("Day 1 minimum loop: PASS")
-    print("\n=== Receipt Preview ===")
-    print(f"Original: {payload.get('original_input', 'N/A')}")
-    print("Items:")
-    for item in payload.get("items", []):
-        print(f"- {item.get('name', 'N/A')} -> {item.get('cost', 'N/A')}")
-    awareness = payload.get("awareness", {})
-    print(f"Emotion: {awareness.get('emotion', 'N/A')}")
-    print(f"Bias: {awareness.get('bias', 'N/A')}")
-    print(f"Reframe: {payload.get('reframe', 'N/A')}")
-    action = payload.get("action", {})
-    print(f"Now: {action.get('now', 'N/A')}")
-    print(f"If trigger: {action.get('if_then_trigger', 'N/A')}")
-    print(f"Then response: {action.get('if_then_response', 'N/A')}")
+    else:
+        print("Schema check: OK")
+        print("Day 1 minimum loop: PASS")
 
 
 if __name__ == "__main__":
