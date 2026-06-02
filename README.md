@@ -156,4 +156,4 @@ python scripts/test_savage_prompt.py
 
 ---
 
-Built with 🌤️ by [your name]
+Built with 🌤️ by Gia
