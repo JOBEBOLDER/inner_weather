@@ -7,6 +7,7 @@ from openai import OpenAI
 from dotenv import load_dotenv
 
 
+
 TEST_INPUT = (
     "我觉得自己学代码学的没有别人快，别人都有数学和理工科基础，"
     "我自己是个艺术生，没有别人聪明"
@@ -20,7 +21,6 @@ def validate_payload(payload: dict) -> list[str]:
         "awareness",
         "reframe",
         "action",
-        "merit",
         "style",
     ]
     errors: list[str] = []
@@ -32,12 +32,8 @@ def validate_payload(payload: dict) -> list[str]:
     if isinstance(payload.get("items"), list) and len(payload["items"]) == 0:
         errors.append("items should not be empty")
 
-    if payload.get("style") != "buddha":
-        errors.append(f"style should be 'buddha', got: {payload.get('style')!r}")
-
-    merit = payload.get("merit", "")
-    if not isinstance(merit, str) or not merit.strip():
-        errors.append("merit should be a non-empty string (e.g. '功德+99')")
+    if payload.get("style") != "mindful":
+        errors.append(f"style should be 'mindful', got: {payload.get('style')!r}")
 
     awareness = payload.get("awareness")
     if isinstance(awareness, dict):
@@ -78,7 +74,7 @@ def main() -> None:
 
     model_name = os.getenv("MODEL", "deepseek-chat")
 
-    prompt_path = Path(__file__).resolve().parent.parent / "prompts" / "赛博佛祖_prompt.txt"
+    prompt_path = Path(__file__).resolve().parent.parent / "prompts" / "理性接纳.txt"
     system_prompt = prompt_path.read_text(encoding="utf-8")
 
     client = OpenAI(
@@ -87,7 +83,7 @@ def main() -> None:
     )
 
     print("==================================================")
-    print(f"Style:      赛博佛祖 (Cyber Buddha)")
+    print(f"Style:      正念接纳 (Mindful Acceptance)")
     print(f"Model:      {model_name}")
     print(f"Test input: {TEST_INPUT}")
     print("==================================================")
@@ -130,7 +126,7 @@ def main() -> None:
         return
 
     print("Schema check: OK")
-    print("Day 2 buddha loop: PASS")
+    print("Mindful loop: PASS")
 
     print("\n=== Receipt Preview ===")
     print(f"Original : {payload.get('original_input', 'N/A')}")
@@ -145,7 +141,6 @@ def main() -> None:
     print(f"Now      : {action.get('now', 'N/A')}")
     print(f"Trigger  : {action.get('if_then_trigger', 'N/A')}")
     print(f"Response : {action.get('if_then_response', 'N/A')}")
-    print(f"Merit    : {payload.get('merit', 'N/A')}")
 
 
 if __name__ == "__main__":
