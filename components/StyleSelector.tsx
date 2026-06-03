@@ -9,7 +9,7 @@ interface StyleSelectorProps {
 
 export default function StyleSelector({ selected, onSelect }: StyleSelectorProps) {
   return (
-    <div className="grid grid-cols-2 gap-2">
+    <div className="grid grid-cols-2 gap-3">
       {STYLE_ORDER.map((style) => {
         const { emoji, label } = STYLE_LABELS[style];
         const isSelected = selected === style;
@@ -19,13 +19,13 @@ export default function StyleSelector({ selected, onSelect }: StyleSelectorProps
             key={style}
             type="button"
             onClick={() => onSelect(style)}
-            className={`rounded-lg border px-3 py-3 text-left text-sm transition-all ${
+            className={`rounded-xl border px-4 py-4 text-left text-base transition-all ${
               isSelected
                 ? "border-purple-primary bg-purple-light text-purple-dark shadow-sm"
                 : "border-[var(--border)] bg-white text-[var(--text-secondary)] hover:border-purple-primary/40"
             }`}
           >
-            <span className="mr-1.5">{emoji}</span>
+            <span className="mr-2 text-lg">{emoji}</span>
             {label}
           </button>
         );

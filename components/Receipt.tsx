@@ -11,13 +11,13 @@ export default function ReceiptCard({ receipt, onReset }: ReceiptProps) {
   const styleInfo = STYLE_LABELS[receipt.style];
 
   return (
-    <div className="animate-receipt-in mx-auto w-full max-w-md">
-      <div className="receipt rounded-lg border border-dashed border-[var(--border)] bg-white p-6 font-mono text-sm shadow-sm">
-        <div className="mb-4 text-center">
-          <p className="text-xs tracking-[0.2em] text-[var(--text-secondary)]">
+    <div className="animate-receipt-in mx-auto w-full max-w-xl">
+      <div className="receipt rounded-xl border border-dashed border-[var(--border)] bg-white p-7 font-mono text-base shadow-sm">
+        <div className="mb-5 text-center">
+          <p className="text-sm tracking-[0.2em] text-[var(--text-secondary)]">
             RECEIPT
           </p>
-          <p className="mt-1 text-[11px] text-[var(--text-secondary)]">
+          <p className="mt-1 text-xs text-[var(--text-secondary)]">
             Reframing your thoughts, one receipt at a time.
           </p>
         </div>
@@ -86,7 +86,7 @@ export default function ReceiptCard({ receipt, onReset }: ReceiptProps) {
       <button
         type="button"
         onClick={onReset}
-        className="mt-4 w-full rounded-lg border border-[var(--border)] bg-white py-3 text-sm text-[var(--text-secondary)] transition hover:border-purple-primary/40"
+        className="mt-5 w-full rounded-xl border border-[var(--border)] bg-white py-4 text-base text-[var(--text-secondary)] transition hover:border-purple-primary/40"
       >
         ← 再转一个念
       </button>
@@ -105,7 +105,7 @@ function Section({
 }) {
   return (
     <div className="border-t border-dashed border-[var(--border)] py-4 first:border-t-0 first:pt-0">
-      <p className="mb-2 text-[10px] tracking-wider text-[var(--text-secondary)]">
+      <p className="mb-2 text-xs tracking-wider text-[var(--text-secondary)]">
         {title} <span className="float-right">{num}.</span>
       </p>
       {children}
@@ -124,7 +124,7 @@ function Row({ label, value }: { label: string; value: string }) {
 
 function Tag({ children }: { children: React.ReactNode }) {
   return (
-    <span className="rounded-full bg-purple-light px-2 py-0.5 text-[10px] text-purple-dark">
+    <span className="rounded-full bg-purple-light px-2.5 py-1 text-xs text-purple-dark">
       {children}
     </span>
   );
@@ -140,7 +140,7 @@ function ActionBlock({
   content: React.ReactNode;
 }) {
   return (
-    <div className="mt-2 rounded border border-[var(--border)] p-3 text-[12px] leading-relaxed">
+    <div className="mt-2 rounded border border-[var(--border)] p-4 text-sm leading-relaxed">
       <p className="mb-1 font-medium">
         {icon} {title}
       </p>

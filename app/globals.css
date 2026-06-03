@@ -16,4 +16,5 @@ body {
   color: var(--text-primary);
   background: var(--background);
   min-height: 100vh;
+  font-size: 17px;
 }
