@@ -123,9 +123,15 @@ export default function InputPage() {
       </div>
 
       {mode === "quick" && (
-        <div>
+        <div className="relative z-10">
           <p className="mb-3 text-base font-medium">智伴风格</p>
-          <StyleSelector selected={style} onSelect={setStyle} />
+          <StyleSelector
+            selected={style}
+            onSelect={(next) => {
+              setStyle(next);
+              setError(null);
+            }}
+          />
         </div>
       )}
 
