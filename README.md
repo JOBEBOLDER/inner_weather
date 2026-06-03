@@ -94,42 +94,42 @@ Deployment  Vercel
 
 ```
 innerweather/
-├── prompts/           ← system prompts for all 6 styles
-│   ├── savage_v1.txt
-│   └── ...
-├── scripts/           ← prompt validation scripts
-│   ├── test_savage.py
-│   └── ...
-├── docs/              ← design documentation
-│   ├── product_model.md
-│   ├── prompt_iterations.md
-│   └── evaluation_report.md
-└── src/               ← frontend source code
+├── app/                    ← Next.js App Router
+│   ├── page.tsx
+│   └── api/quick/route.ts
+├── components/             ← UI components
+├── lib/                    ← prompts, language, utils
+├── types/receipt.ts
+├── prompts/zh/             ← canonical prompt files
+│   ├── savage_zh_v1.txt
+│   ├── buddha_zh_v1.txt
+│   └── deep_mode/
+├── scripts/                ← Python prompt validation
+└── deep_mode_session.py    ← deep mode state machine (Python)
 ```
-
----
-
-## Prompt Design Philosophy
-
-[To be filled: rationale behind the design decisions for each style's prompt]
-
----
-
-## Evaluation
-
-[To be filled: comparison results across different prompt versions]
 
 ---
 
 ## Getting Started
 
+### Web app (Quick Mode)
+
 ```bash
-git clone https://github.com/your-username/innerweather
-cd innerweather
+npm install
+cp .env.local.example .env.local
+# Add DEEPSEEK_API_KEY to .env.local
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000)
+
+### Prompt validation (Python)
+
+```bash
 pip install -r requirements.txt
 cp .env.example .env
-# Add your DEEPSEEK_API_KEY to .env
-python scripts/test_savage_prompt.py
+# Add DEEPSEEK_API_KEY to .env
+python scripts/test_all_prompts.py
 ```
 
 ---

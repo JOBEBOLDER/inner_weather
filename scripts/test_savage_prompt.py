@@ -61,7 +61,7 @@ def main() -> None:
 
     model = os.getenv("MODEL", "claude-sonnet-4-20250514")
 
-    prompt_path = Path(__file__).resolve().parent.parent / "prompts" / "savage_system_v1.txt"
+    prompt_path = Path(__file__).resolve().parent.parent / "prompts" / "zh" / "savage_zh_v1.txt"
     system_prompt = prompt_path.read_text(encoding="utf-8")
 
     client = Anthropic(api_key=api_key)

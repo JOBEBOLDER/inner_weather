@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --purple-primary: #534ab7;
+  --purple-light: #eeedfe;
+  --purple-dark: #3c3489;
+  --text-primary: #1a1a1a;
+  --text-secondary: #666666;
+  --border: #e5e5e5;
+  --background: #f5f4f0;
+}
+
+body {
+  color: var(--text-primary);
+  background: var(--background);
+  min-height: 100vh;
+}

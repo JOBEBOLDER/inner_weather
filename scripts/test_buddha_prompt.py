@@ -12,7 +12,6 @@ TEST_INPUT = (
     "我自己是个艺术生，没有别人聪明"
 )
 
-
 def validate_payload(payload: dict) -> list[str]:
     required_top_fields = [
         "original_input",
@@ -78,7 +77,7 @@ def main() -> None:
 
     model_name = os.getenv("MODEL", "deepseek-chat")
 
-    prompt_path = Path(__file__).resolve().parent.parent / "prompts" / "赛博佛祖_prompt.txt"
+    prompt_path = Path(__file__).resolve().parent.parent / "prompts" / "zh" / "buddha_zh_v1.txt"
     system_prompt = prompt_path.read_text(encoding="utf-8")
 
     client = OpenAI(

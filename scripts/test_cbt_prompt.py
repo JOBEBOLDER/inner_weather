@@ -73,7 +73,7 @@ def main() -> None:
 
     model_name = os.getenv("MODEL", "deepseek-chat")
 
-    prompt_path = Path(__file__).resolve().parent.parent / "prompts" / "理性接纳.txt"
+    prompt_path = Path(__file__).resolve().parent.parent / "prompts" / "zh" / "cbt_zh_v1.txt"
     system_prompt = prompt_path.read_text(encoding="utf-8")
 
     client = OpenAI(

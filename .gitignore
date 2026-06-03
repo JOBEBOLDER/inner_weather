@@ -1,5 +1,7 @@
-cat > .gitignore << 'EOF'
 .env
 .venv/
 __pycache__/
-EOF
+node_modules/
+.next/
+.env.local
+*.tsbuildinfo
