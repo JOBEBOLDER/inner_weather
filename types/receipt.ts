@@ -4,7 +4,11 @@ export type Style =
   | "mindful"
   | "cbt"
   | "socratic"
-  | "mentor";
+  | "mentor"
+  | "neutral";
+
+/** Deep mode always uses a style-neutral guide. */
+export const DEEP_MODE_STYLE = "neutral" as const;
 
 export type Mode = "quick" | "deep";
 
@@ -55,6 +59,7 @@ export const STYLE_LABELS: Record<
   savage: { emoji: "🗡️", label: "毒舌闺蜜", labelEn: "Savage BFF" },
   buddha: { emoji: "🪷", label: "赛博佛祖", labelEn: "Cyber Buddha" },
   mentor: { emoji: "💼", label: "职业导师", labelEn: "Mentor" },
+  neutral: { emoji: "🌿", label: "深度引导", labelEn: "Deep Guide" },
 };
 
 export const STYLE_ORDER: Style[] = [

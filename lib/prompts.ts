@@ -20,6 +20,25 @@ export async function loadPrompt(
   return fs.readFile(filePath, "utf-8");
 }
 
+/** Deep mode prompt; falls back to quick prompt if style-specific deep file is missing. */
+export async function loadDeepPrompt(style: string, lang: string): Promise<string> {
+  const deepPath = path.join(
+    process.cwd(),
+    "prompts",
+    lang,
+    "deep_mode",
+    `${style}_deep_${lang}_v1.txt`
+  );
+
+  try {
+    await fs.access(deepPath);
+    return fs.readFile(deepPath, "utf-8");
+  } catch {
+    const quick = await loadPrompt(style, lang, "quick");
+    return `现在是深度模式——你要陪用户走3轮对话，先听再回应，对话阶段不给结论。\n\n${quick}`;
+  }
+}
+
 export async function loadReceiptGeneratorPrompt(
   style: string,
   conversationText: string

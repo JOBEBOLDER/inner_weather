@@ -138,9 +138,9 @@ python scripts/test_all_prompts.py
 
 - [x] Core receipt generation pipeline
 - [x] 6 companion styles prompt design
-- [ ] Multi-turn conversation state machine
+- [x] Multi-turn conversation state machine
 - [ ] RAG knowledge base integration
-- [ ] Web app (Next.js)
+- [x] Web app (Next.js)
 - [ ] Evaluation framework
 - [ ] Menu bar desktop app
 

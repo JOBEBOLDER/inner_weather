@@ -9,10 +9,10 @@ export default function Home() {
   const [tab, setTab] = useState<Tab>("input");
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-xl flex-col px-6 pb-28 pt-12">
+    <main className="relative z-0 mx-auto flex min-h-screen max-w-xl flex-col px-6 pb-32 pt-12">
       <header className="mb-10 text-center">
         <h1 className="text-4xl font-medium tracking-wide text-purple-primary">
-        Refract
+        InnerWeather☁️
         </h1>
         <p className="mt-2 text-base text-[var(--text-secondary)]">
         让想法换个角度发光。
@@ -29,7 +29,7 @@ export default function Home() {
         )}
       </div>
 
-      <nav className="fixed bottom-0 left-0 right-0 border-t border-[var(--border)] bg-white/90 backdrop-blur">
+      <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-[var(--border)] bg-white/90 backdrop-blur">
         <div className="mx-auto flex max-w-xl">
           {(
             [
