@@ -12,10 +12,10 @@ export default function Home() {
     <main className="mx-auto flex min-h-screen max-w-lg flex-col px-4 pb-24 pt-10">
       <header className="mb-8 text-center">
         <h1 className="text-2xl font-medium tracking-wide text-purple-primary">
-          Innerweather
+        Refract
         </h1>
         <p className="mt-1 text-sm text-[var(--text-secondary)]">
-          Your inner forecast, rewritten.
+        让想法换个角度发光。
         </p>
       </header>
 

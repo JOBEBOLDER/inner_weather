@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Innerweather",
-  description: "Your inner forecast, rewritten.",
+  title: "Flip Thought",
+  description: "Every thought has a flip side.",
 };
 
 export default function RootLayout({
