@@ -9,12 +9,12 @@
   --text-primary: #1a1a1a;
   --text-secondary: #666666;
   --border: #e5e5e5;
-  --background: #f5f4f0;
+  --background: #f8f7f4;
 }
 
 body {
   color: var(--text-primary);
-  background: var(--background);
+  background-color: var(--background);
   min-height: 100vh;
   font-size: 17px;
 }

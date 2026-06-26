@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import CloudBackground from "@/components/CloudBackground";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Flip Thought",
-  description: "Every thought has a flip side.",
+  title: "InnerWeather",
+  description: "让想法换个角度发光。",
 };
 
 export default function RootLayout({
@@ -13,7 +14,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh">
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <CloudBackground />
+        {children}
+      </body>
     </html>
   );
 }
