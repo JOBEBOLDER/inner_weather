@@ -1,7 +1,9 @@
-# 🌤️ Innerweather
+# 🌤️ InnerWeather
 > Reframing your thoughts, one receipt at a time.
 
-[demo screenshot or gif]
+![InnerWeather UI — Input, Receipt, and Deep Mode](docs/images/ui-screenshots.png)
+
+*Input screen · Receipt view · Deep mode conversation*
 
 ---
 

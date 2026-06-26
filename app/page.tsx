@@ -29,7 +29,7 @@ export default function Home() {
         )}
       </div>
 
-      <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-[var(--border)] bg-white/90 backdrop-blur">
+      <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-[var(--border)] bg-white/85 backdrop-blur-md">
         <div className="mx-auto flex max-w-xl">
           {(
             [
