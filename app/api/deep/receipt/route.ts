@@ -2,6 +2,7 @@ import { OpenAI } from "openai";
 import { resolveLanguage, type Locale } from "@/lib/language";
 import { NextResponse } from "next/server";
 import { loadReceiptGeneratorPrompt } from "@/lib/prompts";
+import { localeReceiptUserMessage } from "@/lib/prompt-locale";
 import { cleanJSON, formatConversation } from "@/lib/utils";
 import type { ConversationMessage, Receipt, ReceiptPayload, Style } from "@/types/receipt";
 
@@ -39,10 +40,7 @@ export async function POST(req: Request) {
       lang
     );
 
-    const userMessage =
-      lang === "en"
-        ? "Generate a reframe receipt based on the conversation above."
-        : "请根据以上对话生成转念小票。";
+    const userMessage = localeReceiptUserMessage(lang);
 
     const client = getClient();
     const response = await client.chat.completions.create({

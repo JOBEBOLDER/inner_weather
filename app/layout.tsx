@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import CloudBackground from "@/components/CloudBackground";
 import { LocaleProvider } from "@/components/LocaleProvider";
+import { ReceiptsProvider } from "@/components/ReceiptsProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -17,8 +18,10 @@ export default function RootLayout({
     <html lang="zh" suppressHydrationWarning>
       <body className="antialiased">
         <LocaleProvider>
-          <CloudBackground />
-          {children}
+          <ReceiptsProvider>
+            <CloudBackground />
+            {children}
+          </ReceiptsProvider>
         </LocaleProvider>
       </body>
     </html>

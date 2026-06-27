@@ -2,6 +2,7 @@ import { OpenAI } from "openai";
 import { NextResponse } from "next/server";
 import { detectLanguage, resolveLanguage, type Locale } from "@/lib/language";
 import { loadPrompt } from "@/lib/prompts";
+import { localeUserMessage } from "@/lib/prompt-locale";
 import { cleanJSON } from "@/lib/utils";
 import type { Receipt, ReceiptPayload, Style } from "@/types/receipt";
 
@@ -41,7 +42,7 @@ export async function POST(req: Request) {
       model: process.env.DEEPSEEK_MODEL ?? "deepseek-chat",
       messages: [
         { role: "system", content: systemPrompt },
-        { role: "user", content: thought.trim() },
+        { role: "user", content: localeUserMessage(thought.trim(), lang) },
       ],
       temperature: 0.7,
     });

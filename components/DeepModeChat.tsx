@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import ReceiptCard from "@/components/Receipt";
 import { useLocale } from "@/components/LocaleProvider";
+import { useReceipts } from "@/components/ReceiptsProvider";
 import { formatRound } from "@/lib/i18n";
 import { DEEP_MODE_STYLE, type ConversationMessage, type Receipt } from "@/types/receipt";
 
@@ -18,6 +19,7 @@ export default function DeepModeChat({
   onBack,
 }: DeepModeChatProps) {
   const { locale, t } = useLocale();
+  const { addReceipt } = useReceipts();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [round, setRound] = useState(0);
@@ -127,6 +129,7 @@ export default function DeepModeChat({
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? t.deepChatReceiptFailed);
       setReceipt(data.receipt);
+      await addReceipt(data.receipt);
     } catch (err) {
       setError(err instanceof Error ? err.message : t.deepChatReceiptFailed);
     } finally {

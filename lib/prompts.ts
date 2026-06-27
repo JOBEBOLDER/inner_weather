@@ -1,11 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
 import type { Locale } from "@/lib/language";
-
-const EN_OUTPUT_PREFIX = `[LANGUAGE]
-Respond entirely in English. All JSON field values and user-facing text must be in English.
-
-`;
+import { applyLocaleToPrompt } from "@/lib/prompt-locale";
 
 async function readPromptFile(
   style: string,
@@ -26,20 +22,30 @@ async function readPromptFile(
   return fs.readFile(filePath, "utf-8");
 }
 
+async function readPromptWithFallback(
+  style: string,
+  lang: Locale,
+  mode: "quick" | "deep"
+): Promise<{ content: string; nativeEnglish: boolean }> {
+  try {
+    const content = await readPromptFile(style, lang, mode);
+    return { content, nativeEnglish: lang === "en" };
+  } catch {
+    if (lang === "en") {
+      const content = await readPromptFile(style, "zh", mode);
+      return { content, nativeEnglish: false };
+    }
+    throw new Error(`Prompt not found for style=${style} lang=${lang} mode=${mode}`);
+  }
+}
+
 export async function loadPrompt(
   style: string,
   lang: Locale,
   mode: "quick" | "deep"
 ): Promise<string> {
-  try {
-    return await readPromptFile(style, lang, mode);
-  } catch {
-    if (lang === "en") {
-      const zh = await readPromptFile(style, "zh", mode);
-      return `${EN_OUTPUT_PREFIX}${zh}`;
-    }
-    throw new Error(`Prompt not found for style=${style} lang=${lang} mode=${mode}`);
-  }
+  const { content, nativeEnglish } = await readPromptWithFallback(style, lang, mode);
+  return applyLocaleToPrompt(content, lang, nativeEnglish);
 }
 
 const DEEP_MODE_WRAPPER: Record<Locale, string> = {
@@ -49,22 +55,13 @@ const DEEP_MODE_WRAPPER: Record<Locale, string> = {
 
 /** Deep mode prompt; falls back to quick prompt if style-specific deep file is missing. */
 export async function loadDeepPrompt(style: string, lang: Locale): Promise<string> {
-  const deepPath = path.join(
-    process.cwd(),
-    "prompts",
-    lang,
-    "deep_mode",
-    `${style}_deep_${lang}_v1.txt`
-  );
-
   try {
-    await fs.access(deepPath);
-    const content = await fs.readFile(deepPath, "utf-8");
-    if (lang === "en") return `${EN_OUTPUT_PREFIX}${content}`;
-    return content;
+    const { content, nativeEnglish } = await readPromptWithFallback(style, lang, "deep");
+    return applyLocaleToPrompt(content, lang, nativeEnglish);
   } catch {
     const quick = await loadPrompt(style, lang, "quick");
-    return `${DEEP_MODE_WRAPPER[lang]}\n\n${quick}`;
+    const wrapped = `${DEEP_MODE_WRAPPER[lang]}\n\n${quick}`;
+    return applyLocaleToPrompt(wrapped, lang, lang === "en");
   }
 }
 
@@ -73,20 +70,27 @@ export async function loadReceiptGeneratorPrompt(
   conversationText: string,
   lang: Locale
 ): Promise<string> {
-  const filePath = path.join(
-    process.cwd(),
-    "prompts",
-    "zh",
-    "deep_mode",
-    "receipt_generator_v1.txt"
-  );
-  const template = await fs.readFile(filePath, "utf-8");
+  const dir = lang === "en" ? "en" : "zh";
+  const fileName =
+    lang === "en" ? "receipt_generator_en_v1.txt" : "receipt_generator_v1.txt";
+
+  const filePath = path.join(process.cwd(), "prompts", dir, "deep_mode", fileName);
+  let template: string;
+  let nativeEnglish = lang === "en";
+
+  try {
+    template = await fs.readFile(filePath, "utf-8");
+  } catch {
+    template = await fs.readFile(
+      path.join(process.cwd(), "prompts", "zh", "deep_mode", "receipt_generator_v1.txt"),
+      "utf-8"
+    );
+    nativeEnglish = false;
+  }
+
   const filled = template
     .replace("{STYLE}", style)
     .replace("{CONVERSATION}", conversationText);
 
-  if (lang === "en") {
-    return `${EN_OUTPUT_PREFIX}${filled}`;
-  }
-  return filled;
+  return applyLocaleToPrompt(filled, lang, nativeEnglish);
 }
