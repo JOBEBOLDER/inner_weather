@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { buildDeepSystemPrompt } from "@/lib/deep-mode";
 import { resolveLanguage, type Locale } from "@/lib/language";
 import { loadDeepPrompt } from "@/lib/prompts";
+import { localeUserMessage } from "@/lib/prompt-locale";
 import type { ConversationMessage, Style } from "@/types/receipt";
 
 function getClient() {
@@ -39,7 +40,7 @@ export async function POST(req: Request) {
 
     const messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [
       { role: "system", content: systemPrompt },
-      { role: "user", content: initial_thought.trim() },
+      { role: "user", content: localeUserMessage(initial_thought.trim(), lang) },
       ...(history ?? []),
     ];
 
