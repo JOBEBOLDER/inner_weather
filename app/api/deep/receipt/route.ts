@@ -1,4 +1,5 @@
 import { OpenAI } from "openai";
+import { resolveLanguage, type Locale } from "@/lib/language";
 import { NextResponse } from "next/server";
 import { loadReceiptGeneratorPrompt } from "@/lib/prompts";
 import { cleanJSON, formatConversation } from "@/lib/utils";
@@ -12,10 +13,11 @@ function getClient() {
 
 export async function POST(req: Request) {
   try {
-    const { style, initial_thought, history } = (await req.json()) as {
+    const { style, initial_thought, history, locale } = (await req.json()) as {
       style?: Style;
       initial_thought?: string;
       history?: ConversationMessage[];
+      locale?: Locale;
     };
 
     if (!style || !initial_thought?.trim()) {
@@ -25,18 +27,29 @@ export async function POST(req: Request) {
       );
     }
 
+    const lang = resolveLanguage(locale, initial_thought.trim());
     const conversationText = formatConversation(
       initial_thought.trim(),
-      history ?? []
+      history ?? [],
+      lang
     );
-    const systemPrompt = await loadReceiptGeneratorPrompt(style, conversationText);
+    const systemPrompt = await loadReceiptGeneratorPrompt(
+      style,
+      conversationText,
+      lang
+    );
+
+    const userMessage =
+      lang === "en"
+        ? "Generate a reframe receipt based on the conversation above."
+        : "请根据以上对话生成转念小票。";
 
     const client = getClient();
     const response = await client.chat.completions.create({
       model: process.env.DEEPSEEK_MODEL ?? "deepseek-chat",
       messages: [
         { role: "system", content: systemPrompt },
-        { role: "user", content: "请根据以上对话生成转念小票。" },
+        { role: "user", content: userMessage },
       ],
       temperature: 0.3,
     });

@@ -2,30 +2,34 @@
 
 import { useState } from "react";
 import InputPage from "@/components/InputPage";
+import LanguageToggle from "@/components/LanguageToggle";
+import { useLocale } from "@/components/LocaleProvider";
 
 type Tab = "input" | "receipts" | "impact";
 
 export default function Home() {
   const [tab, setTab] = useState<Tab>("input");
+  const { t } = useLocale();
 
   return (
     <main className="relative z-0 mx-auto flex min-h-screen max-w-xl flex-col px-6 pb-32 pt-12">
-      <header className="mb-10 text-center">
+      <header className="relative z-10 mb-10 text-center">
+        <div className="absolute right-0 top-0 z-20">
+          <LanguageToggle />
+        </div>
         <h1 className="text-4xl font-medium tracking-wide text-purple-primary">
-        InnerWeather☁️
+          InnerWeather☁️
         </h1>
-        <p className="mt-2 text-base text-[var(--text-secondary)]">
-        让想法换个角度发光。
-        </p>
+        <p className="mt-2 text-base text-[var(--text-secondary)]">{t.tagline}</p>
       </header>
 
       <div className="flex-1">
         {tab === "input" && <InputPage />}
         {tab === "receipts" && (
-          <Placeholder title="RECEIPTS" hint="Day 4：历史小票将在这里展示" />
+          <Placeholder title={t.tabReceipts} hint={t.receiptsHint} />
         )}
         {tab === "impact" && (
-          <Placeholder title="IMPACT" hint="Day 5：数据统计将在这里展示" />
+          <Placeholder title={t.tabImpact} hint={t.impactHint} />
         )}
       </div>
 
@@ -33,9 +37,9 @@ export default function Home() {
         <div className="mx-auto flex max-w-xl">
           {(
             [
-              { id: "input", label: "INPUT" },
-              { id: "receipts", label: "RECEIPTS" },
-              { id: "impact", label: "IMPACT" },
+              { id: "input", label: t.tabInput },
+              { id: "receipts", label: t.tabReceipts },
+              { id: "impact", label: t.tabImpact },
             ] as const
           ).map(({ id, label }) => (
             <button

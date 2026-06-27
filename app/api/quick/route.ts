@@ -1,15 +1,16 @@
 import { OpenAI } from "openai";
 import { NextResponse } from "next/server";
-import { detectLanguage } from "@/lib/language";
+import { detectLanguage, resolveLanguage, type Locale } from "@/lib/language";
 import { loadPrompt } from "@/lib/prompts";
 import { cleanJSON } from "@/lib/utils";
 import type { Receipt, ReceiptPayload, Style } from "@/types/receipt";
 
 export async function POST(req: Request) {
   try {
-    const { thought, style } = (await req.json()) as {
+    const { thought, style, locale } = (await req.json()) as {
       thought?: string;
       style?: Style;
+      locale?: Locale;
     };
 
     if (!thought?.trim()) {
@@ -28,7 +29,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const lang = detectLanguage(thought);
+    const lang = resolveLanguage(locale, thought);
     const systemPrompt = await loadPrompt(style, lang, "quick");
 
     const client = new OpenAI({

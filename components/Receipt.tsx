@@ -1,5 +1,7 @@
 "use client";
 
+import { useLocale } from "@/components/LocaleProvider";
+import { getStyleLabel } from "@/lib/i18n";
 import { STYLE_LABELS, type Receipt } from "@/types/receipt";
 
 interface ReceiptProps {
@@ -8,29 +10,35 @@ interface ReceiptProps {
 }
 
 export default function ReceiptCard({ receipt, onReset }: ReceiptProps) {
+  const { locale, t } = useLocale();
   const styleInfo = STYLE_LABELS[receipt.style];
+  const styleLabel = getStyleLabel(receipt.style, locale);
 
   return (
     <div className="animate-receipt-in mx-auto w-full max-w-xl">
       <div className="receipt rounded-xl border border-dashed border-[var(--border)] bg-white p-7 font-mono text-base shadow-sm">
         <div className="mb-5 text-center">
           <p className="text-sm tracking-[0.2em] text-[var(--text-secondary)]">
-            RECEIPT
+            {t.receiptTitle}
           </p>
           <p className="mt-1 text-xs text-[var(--text-secondary)]">
-            Reframing your thoughts, one receipt at a time.
+            {t.receiptSubtitle}
           </p>
         </div>
 
-        <Section num="01" title="原念头 INPUT">
+        <Section num="01" title={t.sectionInput}>
           <p className="leading-relaxed">「{receipt.original_input}」</p>
           <div className="mt-2 flex gap-2">
-            <Tag>{styleInfo.emoji} {styleInfo.label}</Tag>
-            <Tag>{receipt.mode === "quick" ? "⚡ 快速" : "🌿 深度"}</Tag>
+            <Tag>
+              {styleInfo.emoji} {styleLabel}
+            </Tag>
+            <Tag>
+              {receipt.mode === "quick" ? t.modeQuickTag : t.modeDeepTag}
+            </Tag>
           </div>
         </Section>
 
-        <Section num="02" title="消费明细 ITEMS">
+        <Section num="02" title={t.sectionItems}>
           {receipt.items.map((item, i) => (
             <div key={i} className="flex justify-between gap-2 py-1">
               <span>{item.name}</span>
@@ -41,31 +49,33 @@ export default function ReceiptCard({ receipt, onReset }: ReceiptProps) {
           ))}
         </Section>
 
-        <Section num="03" title="觉察 BE AWARE OF">
-          <Row label="情绪识别" value={receipt.awareness.emotion} />
-          <Row label="思维偏差" value={receipt.awareness.bias} />
+        <Section num="03" title={t.sectionAwareness}>
+          <Row label={t.awarenessEmotion} value={receipt.awareness.emotion} />
+          <Row label={t.awarenessBias} value={receipt.awareness.bias} />
         </Section>
 
-        <Section num="04" title="新视角 REFRAME">
+        <Section num="04" title={t.sectionReframe}>
           <p className="whitespace-pre-wrap leading-relaxed">{receipt.reframe}</p>
         </Section>
 
-        <Section num="05" title="小行动 ACTION">
-          <ActionBlock icon="⏱" title="现在可以做" content={receipt.action.now} />
+        <Section num="05" title={t.sectionAction}>
+          <ActionBlock icon="⏱" title={t.actionNow} content={receipt.action.now} />
           <ActionBlock
             icon="🔁"
-            title="下次这个想法来了"
+            title={t.actionIfThen}
             content={
               <>
-                <p>如果… {receipt.action.if_then_trigger}</p>
+                <p>
+                  {t.actionIf} {receipt.action.if_then_trigger}
+                </p>
                 <p className="mt-2 border-t border-dashed border-[var(--border)] pt-2">
-                  我就… {receipt.action.if_then_response}
+                  {t.actionThen} {receipt.action.if_then_response}
                 </p>
               </>
             }
           />
           <p className="mt-3 text-[11px] leading-relaxed text-[var(--text-secondary)]">
-            有时候想法暂时改变不了，也没关系。转念是练习，不是考试。
+            {t.actionFooter}
           </p>
         </Section>
 
@@ -78,7 +88,9 @@ export default function ReceiptCard({ receipt, onReset }: ReceiptProps) {
         <div className="mt-4 flex justify-between text-[10px] text-[var(--text-secondary)]">
           <span>#{receipt.id.slice(0, 6).toUpperCase()}</span>
           <span>
-            {new Date(receipt.created_at).toLocaleDateString("zh-CN")}
+            {new Date(receipt.created_at).toLocaleDateString(
+              locale === "en" ? "en-US" : "zh-CN"
+            )}
           </span>
         </div>
       </div>
@@ -88,7 +100,7 @@ export default function ReceiptCard({ receipt, onReset }: ReceiptProps) {
         onClick={onReset}
         className="mt-5 w-full rounded-xl border border-[var(--border)] bg-white py-4 text-base text-[var(--text-secondary)] transition hover:border-purple-primary/40"
       >
-        ← 再转一个念
+        {t.resetButton}
       </button>
     </div>
   );

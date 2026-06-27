@@ -1,5 +1,7 @@
 "use client";
 
+import { useLocale } from "@/components/LocaleProvider";
+import { getStyleLabel } from "@/lib/i18n";
 import { STYLE_LABELS, STYLE_ORDER, type Style } from "@/types/receipt";
 
 interface StyleSelectorProps {
@@ -8,13 +10,14 @@ interface StyleSelectorProps {
 }
 
 export default function StyleSelector({ selected, onSelect }: StyleSelectorProps) {
-  const selectedLabel = STYLE_LABELS[selected];
+  const { locale, t } = useLocale();
 
   return (
     <div className="relative z-10 space-y-3">
-      <div className="grid grid-cols-2 gap-3" role="group" aria-label="智伴风格">
+      <div className="grid grid-cols-2 gap-3" role="group" aria-label={t.styleAriaLabel}>
         {STYLE_ORDER.map((style) => {
-          const { emoji, label } = STYLE_LABELS[style];
+          const { emoji } = STYLE_LABELS[style];
+          const label = getStyleLabel(style, locale);
           const isSelected = selected === style;
 
           return (
@@ -36,7 +39,8 @@ export default function StyleSelector({ selected, onSelect }: StyleSelectorProps
         })}
       </div>
       <p className="text-center text-sm text-purple-dark">
-        已选：{selectedLabel.emoji} {selectedLabel.label}
+        {t.styleSelected}
+        {STYLE_LABELS[selected].emoji} {getStyleLabel(selected, locale)}
       </p>
     </div>
   );

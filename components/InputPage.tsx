@@ -4,9 +4,11 @@ import { useState } from "react";
 import StyleSelector from "@/components/StyleSelector";
 import ReceiptCard from "@/components/Receipt";
 import DeepModeChat from "@/components/DeepModeChat";
+import { useLocale } from "@/components/LocaleProvider";
 import type { Mode, Receipt, Style } from "@/types/receipt";
 
 export default function InputPage() {
+  const { locale, t } = useLocale();
   const [mode, setMode] = useState<Mode>("quick");
   const [thought, setThought] = useState("");
   const [style, setStyle] = useState<Style>("cbt");
@@ -17,7 +19,7 @@ export default function InputPage() {
 
   async function handleCheckout() {
     if (!thought.trim()) {
-      setError("请先输入你现在的想法");
+      setError(t.errorThoughtRequired);
       return;
     }
 
@@ -34,18 +36,22 @@ export default function InputPage() {
       const res = await fetch("/api/quick", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ thought: thought.trim(), style }),
+        body: JSON.stringify({
+          thought: thought.trim(),
+          style,
+          locale,
+        }),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error ?? "出单失败，请稍后再试");
+        throw new Error(data.error ?? t.errorCheckoutFailed);
       }
 
       setReceipt(data.receipt);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "出单失败，请稍后再试");
+      setError(err instanceof Error ? err.message : t.errorCheckoutFailed);
     } finally {
       setLoading(false);
     }
@@ -90,7 +96,7 @@ export default function InputPage() {
               : "text-[var(--text-secondary)] hover:text-purple-primary"
           }`}
         >
-          ⚡ 快速模式
+          {t.modeQuick}
         </button>
         <button
           type="button"
@@ -101,22 +107,20 @@ export default function InputPage() {
               : "text-[var(--text-secondary)] hover:text-purple-primary"
           }`}
         >
-          🌿 深度模式
+          {t.modeDeep}
         </button>
       </div>
 
       {mode === "deep" && (
-        <p className="text-center text-sm italic text-gray-400">
-          没有标准答案，只有你自己的答案。
-        </p>
+        <p className="text-center text-sm italic text-gray-400">{t.deepSubtitle}</p>
       )}
 
       <div>
-        <label className="mb-3 block text-base font-medium">你现在的想法</label>
+        <label className="mb-3 block text-base font-medium">{t.thoughtLabel}</label>
         <textarea
           value={thought}
           onChange={(e) => setThought(e.target.value)}
-          placeholder="e.g. 我总觉得自己不够好..."
+          placeholder={t.thoughtPlaceholder}
           rows={5}
           className="w-full resize-none rounded-xl border border-[var(--border)] bg-white px-5 py-4 text-base leading-relaxed outline-none transition focus:border-purple-primary focus:ring-2 focus:ring-purple-light"
         />
@@ -124,7 +128,7 @@ export default function InputPage() {
 
       {mode === "quick" && (
         <div className="relative z-10">
-          <p className="mb-3 text-base font-medium">智伴风格</p>
+          <p className="mb-3 text-base font-medium">{t.styleHeading}</p>
           <StyleSelector
             selected={style}
             onSelect={(next) => {
@@ -148,10 +152,10 @@ export default function InputPage() {
         className="w-full rounded-xl bg-purple-primary py-4 text-base font-medium tracking-wide text-white transition hover:bg-purple-dark disabled:cursor-not-allowed disabled:opacity-60"
       >
         {loading
-          ? "正在出单..."
+          ? t.loadingCheckout
           : mode === "deep"
-            ? "开始深度转念 →"
-            : "结算 CHECKOUT 🧾"}
+            ? t.ctaDeepStart
+            : t.ctaCheckout}
       </button>
     </div>
   );
