@@ -14,15 +14,15 @@ export default function Home() {
   const { t } = useLocale();
 
   return (
-    <main className="relative z-0 mx-auto flex min-h-screen max-w-xl flex-col px-6 pb-32 pt-12">
-      <header className="relative z-10 mb-10 text-center">
+    <main className="relative z-0 mx-auto flex min-h-screen max-w-2xl flex-col px-8 pb-36 pt-14">
+      <header className="relative z-10 mb-12 text-center">
         <div className="absolute right-0 top-0 z-20">
           <LanguageToggle />
         </div>
-        <h1 className="text-4xl font-medium tracking-wide text-purple-primary">
+        <h1 className="text-5xl font-medium tracking-wide text-purple-primary">
           InnerWeather☁️
         </h1>
-        <p className="mt-2 text-base text-[var(--text-secondary)]">{t.tagline}</p>
+        <p className="mt-3 text-lg text-[var(--text-secondary)]">{t.tagline}</p>
       </header>
 
       <div className="flex-1">
@@ -32,7 +32,7 @@ export default function Home() {
       </div>
 
       <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-[var(--border)] bg-white/85 backdrop-blur-md">
-        <div className="mx-auto flex max-w-xl">
+        <div className="mx-auto flex max-w-2xl">
           {(
             [
               { id: "input", label: t.tabInput },
@@ -44,7 +44,7 @@ export default function Home() {
               key={id}
               type="button"
               onClick={() => setTab(id)}
-              className={`flex-1 py-5 text-sm tracking-[0.15em] transition ${
+              className={`flex-1 py-6 text-base tracking-[0.15em] transition ${
                 tab === id
                   ? "font-medium text-purple-primary"
                   : "text-[var(--text-secondary)]"

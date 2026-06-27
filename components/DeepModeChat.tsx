@@ -154,37 +154,37 @@ export default function DeepModeChat({
       <div className="space-y-4 text-center">
         {error ? (
           <>
-            <p className="rounded-xl bg-red-50 px-4 py-3 text-base text-red-600">
+            <p className="rounded-xl bg-red-50 px-5 py-4 text-lg text-red-600">
               {error}
             </p>
             <button
               type="button"
               onClick={startChat}
               disabled={loading}
-              className="w-full rounded-xl bg-purple-primary py-4 text-base font-medium text-white transition hover:bg-purple-dark disabled:opacity-60"
+              className="w-full rounded-xl bg-purple-primary py-5 text-lg font-medium text-white transition hover:bg-purple-dark disabled:opacity-60"
             >
               {loading ? t.deepChatConnecting : t.deepChatRetry}
             </button>
             <button
               type="button"
               onClick={onBack}
-              className="text-sm text-[var(--text-secondary)] underline"
+              className="text-base text-[var(--text-secondary)] underline"
             >
               {t.deepChatBack}
             </button>
           </>
         ) : (
-          <p className="text-sm text-[var(--text-secondary)]">{t.deepChatConnecting}</p>
+          <p className="text-base text-[var(--text-secondary)]">{t.deepChatConnecting}</p>
         )}
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex items-center gap-2 text-sm text-[var(--text-secondary)]">
+    <div className="flex flex-col gap-5">
+      <div className="flex items-center gap-3 text-base text-[var(--text-secondary)]">
         <span>{formatRound(locale, round)}</span>
-        <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-[var(--border)]">
+        <div className="h-2 flex-1 overflow-hidden rounded-full bg-[var(--border)]">
           <div
             className="h-full rounded-full bg-purple-primary transition-all"
             style={{ width: `${(round / 3) * 100}%` }}
@@ -192,22 +192,22 @@ export default function DeepModeChat({
         </div>
       </div>
 
-      <div className="space-y-3">
-        <div className="ml-auto max-w-[85%] rounded-xl bg-purple-light px-4 py-3 text-base text-purple-dark">
+      <div className="space-y-4">
+        <div className="ml-auto max-w-[85%] rounded-xl bg-purple-light px-5 py-4 text-lg text-purple-dark">
           {initialThought}
         </div>
 
         {messages.map((msg, i) => (
           <div
             key={i}
-            className={`max-w-[85%] rounded-xl px-4 py-3 text-base leading-relaxed ${
+            className={`max-w-[85%] rounded-xl px-5 py-4 text-lg leading-relaxed ${
               msg.role === "user"
                 ? "ml-auto bg-purple-primary text-white"
                 : "mr-auto border border-[var(--border)] bg-white"
             }`}
           >
             {msg.role === "assistant" && (
-              <p className="mb-1 text-xs text-[var(--text-secondary)]">
+              <p className="mb-1 text-sm text-[var(--text-secondary)]">
                 {t.deepChatAssistant}
               </p>
             )}
@@ -216,43 +216,43 @@ export default function DeepModeChat({
         ))}
 
         {loading && (
-          <p className="text-sm text-[var(--text-secondary)]">{t.deepChatThinking}</p>
+          <p className="text-base text-[var(--text-secondary)]">{t.deepChatThinking}</p>
         )}
       </div>
 
       {error && (
-        <p className="rounded-xl bg-red-50 px-4 py-3 text-base text-red-600">
+        <p className="rounded-xl bg-red-50 px-5 py-4 text-lg text-red-600">
           {error}
         </p>
       )}
 
       {isComplete ? (
         <div className="space-y-3 text-center">
-          <p className="text-base text-purple-primary">{t.deepChatComplete}</p>
+          <p className="text-lg text-purple-primary">{t.deepChatComplete}</p>
           <button
             type="button"
             onClick={generateReceipt}
             disabled={loading}
-            className="w-full rounded-xl bg-purple-primary py-4 text-base font-medium text-white transition hover:bg-purple-dark disabled:opacity-60"
+            className="w-full rounded-xl bg-purple-primary py-5 text-lg font-medium text-white transition hover:bg-purple-dark disabled:opacity-60"
           >
             {loading ? t.deepChatGenerating : t.deepChatGenerateCta}
           </button>
         </div>
       ) : (
-        <div className="flex gap-2">
+        <div className="flex gap-3">
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && sendReply()}
             placeholder={t.deepChatReplyPlaceholder}
             disabled={loading}
-            className="flex-1 rounded-xl border border-[var(--border)] bg-white px-4 py-3 text-base outline-none focus:border-purple-primary focus:ring-2 focus:ring-purple-light"
+            className="flex-1 rounded-xl border border-[var(--border)] bg-white px-5 py-4 text-lg outline-none focus:border-purple-primary focus:ring-2 focus:ring-purple-light"
           />
           <button
             type="button"
             onClick={sendReply}
             disabled={loading || !input.trim()}
-            className="rounded-xl bg-purple-primary px-5 py-3 text-base text-white transition hover:bg-purple-dark disabled:opacity-60"
+            className="rounded-xl bg-purple-primary px-6 py-4 text-lg text-white transition hover:bg-purple-dark disabled:opacity-60"
           >
             {t.deepChatSend}
           </button>

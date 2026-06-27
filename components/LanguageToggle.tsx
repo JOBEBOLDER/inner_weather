@@ -9,7 +9,7 @@ export default function LanguageToggle() {
     <div
       role="group"
       aria-label="Language"
-      className="relative z-20 inline-flex rounded-full border border-[var(--border)] bg-white/95 p-0.5 text-sm shadow-sm backdrop-blur"
+      className="relative z-20 inline-flex rounded-full border border-[var(--border)] bg-white/95 p-1 text-base shadow-sm backdrop-blur"
     >
       {(["zh", "en"] as const).map((lang) => (
         <button
@@ -17,7 +17,7 @@ export default function LanguageToggle() {
           type="button"
           aria-pressed={locale === lang}
           onClick={() => setLocale(lang)}
-          className={`rounded-full px-3 py-1.5 font-medium transition ${
+          className={`rounded-full px-4 py-2 font-medium transition ${
             locale === lang
               ? "bg-purple-primary text-white shadow-sm"
               : "text-[var(--text-secondary)] hover:text-purple-primary"

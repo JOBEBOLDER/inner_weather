@@ -88,12 +88,12 @@ export default function InputPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex rounded-xl border border-[var(--border)] bg-white p-1.5 text-base">
+    <div className="space-y-8">
+      <div className="flex rounded-xl border border-[var(--border)] bg-white p-2 text-lg">
         <button
           type="button"
           onClick={() => handleModeChange("quick")}
-          className={`flex-1 rounded-lg py-3 text-center font-medium transition ${
+          className={`flex-1 rounded-lg py-4 text-center font-medium transition ${
             mode === "quick"
               ? "bg-purple-light text-purple-dark"
               : "text-[var(--text-secondary)] hover:text-purple-primary"
@@ -104,7 +104,7 @@ export default function InputPage() {
         <button
           type="button"
           onClick={() => handleModeChange("deep")}
-          className={`flex-1 rounded-lg py-3 text-center font-medium transition ${
+          className={`flex-1 rounded-lg py-4 text-center font-medium transition ${
             mode === "deep"
               ? "bg-purple-light text-purple-dark"
               : "text-[var(--text-secondary)] hover:text-purple-primary"
@@ -115,23 +115,23 @@ export default function InputPage() {
       </div>
 
       {mode === "deep" && (
-        <p className="text-center text-sm italic text-gray-400">{t.deepSubtitle}</p>
+        <p className="text-center text-base italic text-gray-400">{t.deepSubtitle}</p>
       )}
 
       <div>
-        <label className="mb-3 block text-base font-medium">{t.thoughtLabel}</label>
+        <label className="mb-4 block text-lg font-medium">{t.thoughtLabel}</label>
         <textarea
           value={thought}
           onChange={(e) => setThought(e.target.value)}
           placeholder={t.thoughtPlaceholder}
-          rows={5}
-          className="w-full resize-none rounded-xl border border-[var(--border)] bg-white px-5 py-4 text-base leading-relaxed outline-none transition focus:border-purple-primary focus:ring-2 focus:ring-purple-light"
+          rows={6}
+          className="w-full resize-none rounded-xl border border-[var(--border)] bg-white px-6 py-5 text-lg leading-relaxed outline-none transition focus:border-purple-primary focus:ring-2 focus:ring-purple-light"
         />
       </div>
 
       {mode === "quick" && (
         <div className="relative z-10">
-          <p className="mb-3 text-base font-medium">{t.styleHeading}</p>
+          <p className="mb-4 text-lg font-medium">{t.styleHeading}</p>
           <StyleSelector
             selected={style}
             onSelect={(next) => {
@@ -143,7 +143,7 @@ export default function InputPage() {
       )}
 
       {error && (
-        <p className="rounded-xl bg-red-50 px-4 py-3 text-base text-red-600">
+        <p className="rounded-xl bg-red-50 px-5 py-4 text-lg text-red-600">
           {error}
         </p>
       )}
@@ -152,7 +152,7 @@ export default function InputPage() {
         type="button"
         onClick={handleCheckout}
         disabled={loading}
-        className="w-full rounded-xl bg-purple-primary py-4 text-base font-medium tracking-wide text-white transition hover:bg-purple-dark disabled:cursor-not-allowed disabled:opacity-60"
+        className="w-full rounded-xl bg-purple-primary py-5 text-lg font-medium tracking-wide text-white transition hover:bg-purple-dark disabled:cursor-not-allowed disabled:opacity-60"
       >
         {loading
           ? t.loadingCheckout

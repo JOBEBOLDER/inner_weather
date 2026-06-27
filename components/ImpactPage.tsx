@@ -15,7 +15,7 @@ export default function ImpactPage() {
 
   if (loading) {
     return (
-      <p className="py-16 text-center text-sm text-[var(--text-secondary)]">
+      <p className="py-16 text-center text-base text-[var(--text-secondary)]">
         {t.impactLoading}
       </p>
     );
@@ -23,12 +23,12 @@ export default function ImpactPage() {
 
   if (receipts.length === 0) {
     return (
-      <div className="rounded-xl border border-dashed border-[var(--border)] bg-white px-8 py-14 text-center">
-        <p className="text-4xl">🌤️</p>
-        <p className="mt-4 text-lg font-medium text-purple-primary">
+      <div className="rounded-xl border border-dashed border-[var(--border)] bg-white px-10 py-16 text-center">
+        <p className="text-5xl">🌤️</p>
+        <p className="mt-5 text-xl font-medium text-purple-primary">
           {t.impactEmptyTitle}
         </p>
-        <p className="mt-3 space-y-1 text-base leading-relaxed text-[var(--text-secondary)]">
+        <p className="mt-4 space-y-2 text-lg leading-relaxed text-[var(--text-secondary)]">
           <span className="block">{t.impactEmptyLine1}</span>
           <span className="block">{t.impactEmptyLine2}</span>
           <span className="block">{t.impactEmptyLine3}</span>
@@ -44,8 +44,8 @@ export default function ImpactPage() {
   const monthly = getMonthlySummary(receipts);
 
   return (
-    <div className="space-y-4">
-      <div className="grid grid-cols-2 gap-3">
+    <div className="space-y-5">
+      <div className="grid grid-cols-2 gap-4">
         <StatCard
           label={t.impactWeekReframes}
           value={String(weekReceipts.length)}
@@ -53,31 +53,31 @@ export default function ImpactPage() {
         <StatCard label={t.impactWeekHours} value={`${weekHours}h`} />
       </div>
 
-      <div className="rounded-xl border border-[var(--border)] bg-white p-5">
-        <p className="text-sm font-medium text-purple-primary">
+      <div className="rounded-xl border border-[var(--border)] bg-white p-6">
+        <p className="text-base font-medium text-purple-primary">
           {t.impactTotalHours}
         </p>
-        <p className="mt-1 text-3xl font-medium">{totalHours}h</p>
-        <p className="mt-1 text-xs text-[var(--text-secondary)]">
+        <p className="mt-2 text-4xl font-medium">{totalHours}h</p>
+        <p className="mt-2 text-sm text-[var(--text-secondary)]">
           {t.impactTotalHoursHint}
         </p>
       </div>
 
-      <div className="rounded-xl border border-[var(--border)] bg-white p-5">
-        <p className="mb-3 text-sm font-medium text-purple-primary">
+      <div className="rounded-xl border border-[var(--border)] bg-white p-6">
+        <p className="mb-4 text-base font-medium text-purple-primary">
           {t.impactBiasRanking}
         </p>
         {biasRanking.length === 0 ? (
-          <p className="text-sm text-[var(--text-secondary)]">{t.impactNoBias}</p>
+          <p className="text-base text-[var(--text-secondary)]">{t.impactNoBias}</p>
         ) : (
-          <ul className="space-y-2">
+          <ul className="space-y-3">
             {biasRanking.map((item, i) => (
               <li
                 key={item.bias}
-                className="flex items-center justify-between gap-3 text-sm"
+                className="flex items-center justify-between gap-3 text-base"
               >
-                <span className="flex items-center gap-2">
-                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-purple-light text-xs text-purple-dark">
+                <span className="flex items-center gap-3">
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-purple-light text-sm text-purple-dark">
                     {i + 1}
                   </span>
                   <span className="line-clamp-1">{item.bias}</span>
@@ -91,11 +91,11 @@ export default function ImpactPage() {
         )}
       </div>
 
-      <div className="rounded-xl border border-[var(--border)] bg-white p-5">
-        <p className="text-sm font-medium text-purple-primary">
+      <div className="rounded-xl border border-[var(--border)] bg-white p-6">
+        <p className="text-base font-medium text-purple-primary">
           {t.impactMonthlyReport}
         </p>
-        <p className="mt-2 text-sm text-[var(--text-secondary)]">
+        <p className="mt-3 text-base text-[var(--text-secondary)]">
           {locale === "zh"
             ? `${monthly.monthLabel} · ${t.impactMonthlyCount.replace("{count}", String(monthly.count))} · ${t.impactMonthlyHours.replace("{hours}", String(monthly.hours))}`
             : `${monthly.monthLabel} · ${monthly.count} reframes · ${monthly.hours}h saved`}
@@ -107,9 +107,9 @@ export default function ImpactPage() {
 
 function StatCard({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-xl border border-[var(--border)] bg-white p-4">
-      <p className="text-xs text-[var(--text-secondary)]">{label}</p>
-      <p className="mt-1 text-2xl font-medium text-purple-primary">{value}</p>
+    <div className="rounded-xl border border-[var(--border)] bg-white p-5">
+      <p className="text-sm text-[var(--text-secondary)]">{label}</p>
+      <p className="mt-2 text-3xl font-medium text-purple-primary">{value}</p>
     </div>
   );
 }

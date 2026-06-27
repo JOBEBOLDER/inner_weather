@@ -16,5 +16,6 @@ body {
   color: var(--text-primary);
   background-color: var(--background);
   min-height: 100vh;
-  font-size: 17px;
+  font-size: 19px;
+  line-height: 1.6;
 }
