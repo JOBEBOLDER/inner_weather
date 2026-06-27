@@ -5,10 +5,12 @@ import StyleSelector from "@/components/StyleSelector";
 import ReceiptCard from "@/components/Receipt";
 import DeepModeChat from "@/components/DeepModeChat";
 import { useLocale } from "@/components/LocaleProvider";
+import { useReceipts } from "@/components/ReceiptsProvider";
 import type { Mode, Receipt, Style } from "@/types/receipt";
 
 export default function InputPage() {
   const { locale, t } = useLocale();
+  const { addReceipt } = useReceipts();
   const [mode, setMode] = useState<Mode>("quick");
   const [thought, setThought] = useState("");
   const [style, setStyle] = useState<Style>("cbt");
@@ -50,6 +52,7 @@ export default function InputPage() {
       }
 
       setReceipt(data.receipt);
+      await addReceipt(data.receipt);
     } catch (err) {
       setError(err instanceof Error ? err.message : t.errorCheckoutFailed);
     } finally {

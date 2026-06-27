@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import InputPage from "@/components/InputPage";
+import ImpactPage from "@/components/ImpactPage";
 import LanguageToggle from "@/components/LanguageToggle";
+import ReceiptsPage from "@/components/ReceiptsPage";
 import { useLocale } from "@/components/LocaleProvider";
 
 type Tab = "input" | "receipts" | "impact";
@@ -25,12 +27,8 @@ export default function Home() {
 
       <div className="flex-1">
         {tab === "input" && <InputPage />}
-        {tab === "receipts" && (
-          <Placeholder title={t.tabReceipts} hint={t.receiptsHint} />
-        )}
-        {tab === "impact" && (
-          <Placeholder title={t.tabImpact} hint={t.impactHint} />
-        )}
+        {tab === "receipts" && <ReceiptsPage onGoToInput={() => setTab("input")} />}
+        {tab === "impact" && <ImpactPage />}
       </div>
 
       <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-[var(--border)] bg-white/85 backdrop-blur-md">
@@ -58,16 +56,5 @@ export default function Home() {
         </div>
       </nav>
     </main>
-  );
-}
-
-function Placeholder({ title, hint }: { title: string; hint: string }) {
-  return (
-    <div className="rounded-lg border border-dashed border-[var(--border)] bg-white p-10 text-center">
-      <p className="text-base font-medium tracking-wider text-purple-primary">
-        {title}
-      </p>
-      <p className="mt-3 text-base text-[var(--text-secondary)]">{hint}</p>
-    </div>
   );
 }
