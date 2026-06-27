@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import CloudBackground from "@/components/CloudBackground";
+import { LocaleProvider } from "@/components/LocaleProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -13,10 +14,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh">
+    <html lang="zh" suppressHydrationWarning>
       <body className="antialiased">
-        <CloudBackground />
-        {children}
+        <LocaleProvider>
+          <CloudBackground />
+          {children}
+        </LocaleProvider>
       </body>
     </html>
   );

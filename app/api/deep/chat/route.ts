@@ -1,7 +1,7 @@
 import { OpenAI } from "openai";
 import { NextResponse } from "next/server";
 import { buildDeepSystemPrompt } from "@/lib/deep-mode";
-import { detectLanguage } from "@/lib/language";
+import { resolveLanguage, type Locale } from "@/lib/language";
 import { loadDeepPrompt } from "@/lib/prompts";
 import type { ConversationMessage, Style } from "@/types/receipt";
 
@@ -17,11 +17,12 @@ function stripThinking(text: string): string {
 
 export async function POST(req: Request) {
   try {
-    const { style, round, history, initial_thought } = (await req.json()) as {
+    const { style, round, history, initial_thought, locale } = (await req.json()) as {
       style?: Style;
       round?: number;
       history?: ConversationMessage[];
       initial_thought?: string;
+      locale?: Locale;
     };
 
     if (!style || !round || round < 1 || round > 3) {
@@ -32,9 +33,9 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "initial_thought is required" }, { status: 400 });
     }
 
-    const lang = detectLanguage(initial_thought);
+    const lang = resolveLanguage(locale, initial_thought);
     const basePrompt = await loadDeepPrompt(style, lang);
-    const systemPrompt = buildDeepSystemPrompt(basePrompt, round);
+    const systemPrompt = buildDeepSystemPrompt(basePrompt, round, lang);
 
     const messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [
       { role: "system", content: systemPrompt },
