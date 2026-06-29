@@ -8,6 +8,7 @@
 ---
 
 ## What is this?
+Check out this link to explore more:https://inner-weather-r3br4wgdx-jobebolders-projects.vercel.app
 
 Innerweather is an AI-powered mental reframing tool that turns negative thought patterns into structured "receipts" — helping you pause, process, and reframe your inner chatter.
 
