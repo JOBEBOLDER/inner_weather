@@ -39,7 +39,7 @@ export default function ReceiptsPage({ onGoToInput }: ReceiptsPageProps) {
 
   if (loading) {
     return (
-      <p className="py-16 text-center text-sm text-[var(--text-secondary)]">
+      <p className="py-16 text-center text-base text-[var(--text-secondary)]">
         {t.receiptsLoading}
       </p>
     );
@@ -47,18 +47,18 @@ export default function ReceiptsPage({ onGoToInput }: ReceiptsPageProps) {
 
   if (receipts.length === 0) {
     return (
-      <div className="rounded-xl border border-dashed border-[var(--border)] bg-white px-8 py-14 text-center">
-        <p className="text-4xl">☁️</p>
-        <p className="mt-4 text-lg font-medium text-purple-primary">
+      <div className="rounded-xl border border-dashed border-[var(--border)] bg-white px-10 py-16 text-center">
+        <p className="text-5xl">☁️</p>
+        <p className="mt-5 text-xl font-medium text-purple-primary">
           {t.receiptsEmptyTitle}
         </p>
-        <p className="mt-2 text-base text-[var(--text-secondary)]">
+        <p className="mt-3 text-lg text-[var(--text-secondary)]">
           {t.receiptsEmptyHint}
         </p>
         <button
           type="button"
           onClick={onGoToInput}
-          className="mt-6 rounded-xl bg-purple-primary px-6 py-3 text-base font-medium text-white transition hover:bg-purple-dark"
+          className="mt-8 rounded-xl bg-purple-primary px-8 py-4 text-lg font-medium text-white transition hover:bg-purple-dark"
         >
           {t.receiptsEmptyCta}
         </button>
@@ -67,9 +67,9 @@ export default function ReceiptsPage({ onGoToInput }: ReceiptsPageProps) {
   }
 
   return (
-    <div className="space-y-4">
-      <div className="rounded-xl border border-[var(--border)] bg-white px-5 py-4">
-        <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm">
+    <div className="space-y-5">
+      <div className="rounded-xl border border-[var(--border)] bg-white px-6 py-5">
+        <div className="flex flex-wrap gap-x-8 gap-y-2 text-base">
           <span>
             <span className="text-[var(--text-secondary)]">{t.receiptsWeekCount}</span>{" "}
             <span className="font-medium text-purple-primary">{weekReceipts.length}</span>
@@ -84,7 +84,7 @@ export default function ReceiptsPage({ onGoToInput }: ReceiptsPageProps) {
       </div>
 
       <div>
-        <p className="mb-2 text-sm text-[var(--text-secondary)]">{t.receiptsFilter}</p>
+        <p className="mb-3 text-base text-[var(--text-secondary)]">{t.receiptsFilter}</p>
         <div className="flex flex-wrap gap-2">
           <FilterChip
             active={filter === "all"}
@@ -143,7 +143,7 @@ function FilterChip({
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-full border px-3 py-1.5 text-sm transition ${
+      className={`rounded-full border px-4 py-2 text-base transition ${
         active
           ? "border-purple-primary bg-purple-light text-purple-dark"
           : "border-[var(--border)] bg-white text-[var(--text-secondary)] hover:border-purple-primary/40"
@@ -176,22 +176,22 @@ function ReceiptListItem({
   const preview = receipt.reframe.split("\n")[0];
 
   return (
-    <div className="rounded-xl border border-[var(--border)] bg-white p-4 transition hover:border-purple-primary/30">
+    <div className="rounded-xl border border-[var(--border)] bg-white p-5 transition hover:border-purple-primary/30">
       <button type="button" onClick={onToggle} className="w-full text-left">
-        <p className="line-clamp-2 text-base leading-relaxed">
+        <p className="line-clamp-2 text-lg leading-relaxed">
           「{receipt.original_input}」
         </p>
-        <p className="mt-2 text-sm text-[var(--text-secondary)]">
+        <p className="mt-3 text-base text-[var(--text-secondary)]">
           {styleInfo.emoji} {styleLabel} · {dateStr}
         </p>
         <p
-          className={`mt-2 text-sm leading-relaxed text-[var(--text-primary)] ${
+          className={`mt-3 text-base leading-relaxed text-[var(--text-primary)] ${
             expanded ? "" : "line-clamp-1"
           }`}
         >
           {preview}
         </p>
-        <p className="mt-1 text-right text-xs text-purple-primary">
+        <p className="mt-2 text-right text-sm text-purple-primary">
           {expanded ? "↓" : "↑"}
         </p>
       </button>
@@ -199,7 +199,7 @@ function ReceiptListItem({
         <button
           type="button"
           onClick={onOpen}
-          className="mt-3 w-full rounded-lg border border-[var(--border)] py-2 text-sm text-purple-primary transition hover:bg-purple-light/50"
+          className="mt-4 w-full rounded-lg border border-[var(--border)] py-3 text-base text-purple-primary transition hover:bg-purple-light/50"
         >
           {t.receiptsViewFull}
         </button>

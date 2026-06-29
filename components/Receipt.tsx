@@ -15,13 +15,13 @@ export default function ReceiptCard({ receipt, onReset }: ReceiptProps) {
   const styleLabel = getStyleLabel(receipt.style, locale);
 
   return (
-    <div className="animate-receipt-in mx-auto w-full max-w-xl">
-      <div className="receipt rounded-xl border border-dashed border-[var(--border)] bg-white p-7 font-mono text-base shadow-sm">
-        <div className="mb-5 text-center">
-          <p className="text-sm tracking-[0.2em] text-[var(--text-secondary)]">
+    <div className="animate-receipt-in mx-auto w-full max-w-2xl">
+      <div className="receipt rounded-xl border border-dashed border-[var(--border)] bg-white p-8 font-mono text-lg shadow-sm">
+        <div className="mb-6 text-center">
+          <p className="text-base tracking-[0.2em] text-[var(--text-secondary)]">
             {t.receiptTitle}
           </p>
-          <p className="mt-1 text-xs text-[var(--text-secondary)]">
+          <p className="mt-1 text-sm text-[var(--text-secondary)]">
             {t.receiptSubtitle}
           </p>
         </div>
@@ -74,7 +74,7 @@ export default function ReceiptCard({ receipt, onReset }: ReceiptProps) {
               </>
             }
           />
-          <p className="mt-3 text-[11px] leading-relaxed text-[var(--text-secondary)]">
+          <p className="mt-4 text-xs leading-relaxed text-[var(--text-secondary)]">
             {t.actionFooter}
           </p>
         </Section>
@@ -85,7 +85,7 @@ export default function ReceiptCard({ receipt, onReset }: ReceiptProps) {
           </div>
         )}
 
-        <div className="mt-4 flex justify-between text-[10px] text-[var(--text-secondary)]">
+        <div className="mt-5 flex justify-between text-xs text-[var(--text-secondary)]">
           <span>#{receipt.id.slice(0, 6).toUpperCase()}</span>
           <span>
             {new Date(receipt.created_at).toLocaleDateString(
@@ -98,7 +98,7 @@ export default function ReceiptCard({ receipt, onReset }: ReceiptProps) {
       <button
         type="button"
         onClick={onReset}
-        className="mt-5 w-full rounded-xl border border-[var(--border)] bg-white py-4 text-base text-[var(--text-secondary)] transition hover:border-purple-primary/40"
+        className="mt-6 w-full rounded-xl border border-[var(--border)] bg-white py-5 text-lg text-[var(--text-secondary)] transition hover:border-purple-primary/40"
       >
         {t.resetButton}
       </button>
@@ -116,8 +116,8 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <div className="border-t border-dashed border-[var(--border)] py-4 first:border-t-0 first:pt-0">
-      <p className="mb-2 text-xs tracking-wider text-[var(--text-secondary)]">
+    <div className="border-t border-dashed border-[var(--border)] py-5 first:border-t-0 first:pt-0">
+      <p className="mb-3 text-sm tracking-wider text-[var(--text-secondary)]">
         {title} <span className="float-right">{num}.</span>
       </p>
       {children}
@@ -136,7 +136,7 @@ function Row({ label, value }: { label: string; value: string }) {
 
 function Tag({ children }: { children: React.ReactNode }) {
   return (
-    <span className="rounded-full bg-purple-light px-2.5 py-1 text-xs text-purple-dark">
+    <span className="rounded-full bg-purple-light px-3 py-1.5 text-sm text-purple-dark">
       {children}
     </span>
   );
@@ -152,7 +152,7 @@ function ActionBlock({
   content: React.ReactNode;
 }) {
   return (
-    <div className="mt-2 rounded border border-[var(--border)] p-4 text-sm leading-relaxed">
+    <div className="mt-3 rounded border border-[var(--border)] p-5 text-base leading-relaxed">
       <p className="mb-1 font-medium">
         {icon} {title}
       </p>
